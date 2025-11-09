@@ -1,0 +1,141 @@
+<section class="w-[60%] mx-auto my-10 bg-slate-100 shadow-md p-10 rounded-2xl">
+    <h2 class="text-2xl font-semibold mb-3 text-green-700">Register Now</h2>
+    <form [formGroup]="registerForm" (submit)="submitForm()">
+        <div class="grid md:grid-cols-2 gap-3">
+            <div>
+                <label for="Name" class="relative">
+                    <input type="text" id="Name" placeholder="" formControlName="name"
+                        class="peer p-3 mt-3 w-full rounded-2xl border-gray-100 shadow-sm sm:text-sm" />
+
+                    <span
+                        class="absolute inset-y-0 start-3 -translate-y-5 bg-white px-0.5 text-sm font-medium text-gray-700 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+                        Name
+                    </span>
+                </label>
+                @if(registerForm.get('name')?.errors && registerForm.get('name')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl my-2">
+                    @if (registerForm.get('name')?.errors?.['required']) {
+                    Name is required
+                    }@else if (registerForm.get('name')?.errors?.['maxLength']) {
+                    MaxLength is 3 character
+                    }@else if (registerForm.get('name')?.errors?.['minLength']) {
+                    MinLength is 20 character
+                    }
+                </div>
+                }
+            </div>
+            <div>
+                <label for="Email" class="relative">
+                    <input type="email" id="Email" placeholder="" formControlName="email"
+                        class="peer p-3 mt-2 w-full rounded-2xl border-gray-100 shadow-sm sm:text-sm" />
+
+                    <span
+                        class="absolute inset-y-0 start-3 -translate-y-5 bg-white px-0.5 text-sm font-medium text-gray-700 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+                        Email
+                    </span>
+                </label>
+                @if(registerForm.get('email')?.errors && registerForm.get('email')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl mt-3">
+                    @if (registerForm.get('email')?.errors?.['required']) {
+                    Email is required
+                    }@else if (registerForm.get('email')?.errors?.['email']) {
+                    Email is invalid
+                    }
+                </div>
+                }
+            </div>
+            <div>
+                <label for="Password" class="relative">
+                    <input type="password" id="Password" placeholder="" formControlName="password"
+                        class="peer p-3 mt-3 w-full rounded-2xl border-gray-100 shadow-sm sm:text-sm" />
+
+                    <span
+                        class="absolute inset-y-0 start-3 -translate-y-5 bg-white px-0.5 text-sm font-medium text-gray-700 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+                        Password
+                    </span>
+                </label>
+                @if(registerForm.get('password')?.errors && registerForm.get('password')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl my-2">
+                    @if (registerForm.get('password')?.errors?.['required']) {
+                    Password is required
+                    } @else if (registerForm.get('password')?.errors?.['pattern']) {
+                    Password is invalid
+                    }
+                </div>
+                }
+            </div>
+            <div>
+                <label for="rePassword" class="relative">
+                    <input type="password" id="rePassword" placeholder="" formControlName="rePassword"
+                        class="peer p-3 mt-3 w-full rounded-2xl border-gray-100 shadow-sm sm:text-sm mb-5" />
+
+                    <span
+                        class="absolute inset-y-0 start-3 -translate-y-5 bg-white px-0.5 text-sm font-medium text-gray-700 transition-transform peer-placeholder-shown:translate-y-0 peer-focus:-translate-y-5">
+                        New Password
+                    </span>
+                </label>
+                @if(registerForm.getError('mismatch') && registerForm.get('rePassword')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl my-2">
+                    <p>Password and new password is not matched</p>
+                </div>
+                }
+            </div>
+            <div>
+
+
+                <div class="relative max-w-sm">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                        </svg>
+                    </div>
+                    <input formControlName="dateOfBirth" id="datepicker-format" datepicker
+                        datepicker-format="mm-dd-yyyy" type="text"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Select date">
+                </div>
+
+
+                @if(registerForm.get('dateOfBirth')?.errors && registerForm.get('dateOfBirth')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl my-2">
+                    @if (registerForm.get('dateOfBirth')?.errors?.['required']) {
+                    dateOfBirth is required
+                    }
+                </div>
+                }
+            </div>
+            <div>
+                @for (item of gender; track item.key) {
+                <input [id]="item.key" type="radio" [value]="item.name" formControlName="gender"
+                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <label for="default-radio-1"
+                    class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{item.name}}</label>
+                }
+                @if(registerForm.get('gender')?.errors && registerForm.get('gender')?.touched){
+                <div class="bg-red-100 text-red-800 border border-red-500 p-3 rounded-2xl my-2">
+                    @if (registerForm.get('gender')?.errors?.['required']) {
+                    gender is required
+                    }
+                </div>
+                }
+            </div>
+        </div>
+
+        <div class="md:flex justify-between mt-3">
+            <button type="submit"
+                class="text-white bg-gray-800 cursor-pointer hover:bg-main focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-main dark:hover:bg-main dark:focus:ring-main">
+                @if (loading) {
+                <i class="fa fa-spin fa-spinner"></i>
+                } @else{
+                Register
+                }
+            </button>
+            <span>already have an account? <a routerLink="/login" class="text-blue-600 underline ms-2 cursor-pointer">Login</a></span>
+        </div>
+
+        <p class="text-center text-red-700 font-semibold">{{errMessage}}</p>
+
+    </form>
+</section>

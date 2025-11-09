@@ -1,0 +1,50 @@
+<section class="md:w-[40%] mx-auto bg-white p-5 my-5 rounded-2xl">
+    <div class="flex justify-between items-center">
+        <div class="flex items-center gap-2">
+            <img [src]="post().user.photo && 'images/profile.png'" [alt]="post().user.name"
+                class="size-10 rounded-full" />
+            <div>
+                <h3 class="leading-2">{{post().user.name}}</h3>
+                <span class="text-sm font-light">{{post().createdAt | date}}</span>
+            </div>
+        </div>
+        <div>
+            <button class="cursor-pointer"><i
+                    class="fa-solid fa-trash-can mx-2 text-red-500 hover:text-red-900"></i></button>
+            <button class="cursor-pointer"><i
+                    class="fa-regular fa-pen-to-square text-blue-500 hover:text-blue-900"></i></button>
+        </div>
+    </div>
+    <div [routerLink]="['/details', post()._id]" class="cursor-pointer">
+        @if (post().body) {
+        <p class="my-3">{{post().body}}</p>
+        }
+        @if (post().image) {
+        <img [src]="post().image" [alt]="post().body" class="rounded-3xl">
+        }
+    </div>
+    <button #btn class="text-sky-500 cursor-pointer my-2">Show Comments</button>
+
+    @defer (on interaction(btn)) {
+    @for (comment of commentPost(); track comment._id) {
+    <app-comment [comment]="comment"></app-comment>
+    }
+    }@loading {
+    <div class="text-center"><i class="fa-spin fa-spinner fa-2xl"></i></div>
+    }
+
+    <!-- add-comment -->
+    <form (submit)="submitForm($event)">
+        <label for="chat" class="sr-only">Your message</label>
+        <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
+            <textarea [formControl]="commentControl" id="chat" rows="1"
+                class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Your message..."></textarea>
+            <button type="submit"
+                class="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600">
+                Send
+                <span class="sr-only">Send message</span>
+            </button>
+        </div>
+    </form>
+</section>
