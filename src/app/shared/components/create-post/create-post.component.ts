@@ -2,23 +2,31 @@ import { Component, ElementRef, inject, OnInit, signal, viewChild, WritableSigna
 import { initFlowbite, Modal } from 'flowbite';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PostsService } from '../../../features/pages/timeline/services/posts.service';
+import { Dialog } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-create-post',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Dialog, ButtonModule, InputTextModule],
   templateUrl: './create-post.component.html',
   styleUrl: './create-post.component.css',
 })
 export class CreatePostComponent implements OnInit {
-  
+
   saveFile: WritableSignal<File | null> = signal(null);
   myModal = viewChild<ElementRef>('modal');
-  private readonly postsService = inject(PostsService);
+  visible: boolean = false;
 
+  private readonly postsService = inject(PostsService);
   content: FormControl = new FormControl(null, Validators.required);
 
   ngOnInit(): void {
     initFlowbite();
+  }
+
+  showDialog() {
+    this.visible = true;
   }
 
   changeImage(e: Event): void {
@@ -44,9 +52,11 @@ export class CreatePostComponent implements OnInit {
       this.postsService.createPost(formData).subscribe({
         next: (res) => {
           console.log(res);
-          if (res.message === 'success') {
-            new Modal(this.myModal()?.nativeElement).hide();
+          if (res.message == 'success') {
+            // new Modal(this.myModal()?.nativeElement).hide();
             // getPosts
+            this.visible = false;
+            this.content.reset();
           }
 
         }

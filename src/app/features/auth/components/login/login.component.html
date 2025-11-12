@@ -1,5 +1,5 @@
 <section class="w-[60%] mx-auto my-10 bg-slate-100 shadow-md p-10 rounded-2xl">
-    <h2 class="text-2xl font-semibold mb-3 text-green-700">Register Now</h2>
+    <h2 class="text-2xl font-semibold mb-3 text-green-700">Login Now</h2>
     <form [formGroup]="loginForm" (submit)="submitForm()">
         <div class="grid md:grid-cols-1 gap-3">
             <div>
@@ -46,12 +46,8 @@
 
         <div class="md:flex justify-between mt-3">
             <button type="submit"
-                class="text-white bg-gray-800 cursor-pointer hover:bg-main focus:ring-4 focus:outline-none focus:ring-main font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-main dark:hover:bg-main dark:focus:ring-main">
-                @if (loading) {
-                <i class="fa fa-spin fa-spinner"></i>
-                } @else{
+                class="btn md:w-1/3">
                 Login
-                }
             </button>
              <span>Create a new account<a routerLink="/register" class="text-blue-600 underline ms-2 cursor-pointer">Register</a></span>
         </div>

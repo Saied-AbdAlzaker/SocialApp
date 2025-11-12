@@ -1,23 +1,25 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { initFlowbite } from 'flowbite';
 import { RouterLink } from "@angular/router";
 import { AuthService } from '../../../features/auth/services/auth.service';
+import { Dialog } from 'primeng/dialog';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, Dialog],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
+  providers: []
 })
-export class NavbarComponent implements OnInit{
+export class NavbarComponent {
 
+  visible: boolean = false;
   private readonly auth = inject(AuthService);
 
-  ngOnInit(): void {
-    initFlowbite();
+  showDialog() {
+    this.visible = true;
   }
 
-  signout():void{
+  signout(): void {
     this.auth.logout();
   }
 

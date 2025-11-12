@@ -5,12 +5,15 @@ import { CommentComponent } from "../comment/comment.component";
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommentsService } from '../../../features/pages/timeline/services/comments.service';
 import { RouterLink } from "@angular/router";
+import { PostsService } from '../../../features/pages/timeline/services/posts.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-post',
   imports: [DatePipe, CommentComponent, ReactiveFormsModule, RouterLink],
   templateUrl: './post.component.html',
   styleUrl: './post.component.css',
+  providers: [MessageService]
 })
 export class PostComponent implements OnInit {
 
@@ -19,6 +22,8 @@ export class PostComponent implements OnInit {
   commentControl: FormControl = new FormControl(null, Validators.required);
 
   private readonly commentsService = inject(CommentsService);
+  private readonly postsService = inject(PostsService);
+  private readonly messageService = inject(MessageService);
 
   commentPost: WritableSignal<Comment[]> = signal([]);
 
@@ -43,6 +48,16 @@ export class PostComponent implements OnInit {
       })
     }
 
+  }
+
+  deletePost(id: string): void {
+    this.postsService.deletePost(id).subscribe({
+      next: (res) => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: res.message });
+      }, error: (err) => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: err.message });
+      }
+    })
   }
 
 }

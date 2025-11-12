@@ -6,14 +6,13 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule, FormsModule,RouterLink],
+  imports: [ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
 
   errMessage: string = '';
-  loading: boolean = false;
   dateVlue: Date | undefined;
   subscription: Subscription = new Subscription();
 
@@ -42,7 +41,6 @@ export class RegisterComponent {
   }
 
   submitForm() {
-    this.loading = true;
     if (this.registerForm.valid) {
       this.subscription.unsubscribe();
       this.subscription = this.auth.signup(this.registerForm.value).subscribe({
@@ -50,10 +48,8 @@ export class RegisterComponent {
           if (res.message === "success") {
             this.router.navigate(['/login'])
           }
-          this.loading = false;
         },
         error: (err) => {
-          this.loading = false;
           this.errMessage = err.error.error;
         }
       })
