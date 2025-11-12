@@ -13,13 +13,11 @@
         </div>
     </div>
 </nav>
-<!-- Delete dialog -->
+<!-- Signout dialog -->
 <p-dialog [modal]="true" [(visible)]="visible" [style]="{ width: '30rem' }">
     <div class=" bg-white rounded-lg shadow-sm dark:bg-gray-700">
         <div class="flex flex-col justify-center items-center gap-2">
-            <img src="/images/Delete_icon_1.png" alt="delete" class="w-[15%]" />
-            <h3>Delete this post.</h3>
-            <p>Are you sure to delete.</p>
+            <p class="text-2xl">Are you sure SignOut.</p>
             <button (click)="signout()" class="btn py-1 px-3 my-2">Signout</button>
         </div>
     </div>
