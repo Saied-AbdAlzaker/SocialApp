@@ -1,0 +1,53 @@
+<div class="max-w-4xl mx-auto bg-white shadow rounded-xl overflow-hidden my-10">
+  <!-- Cover -->
+  <div class="h-48 bg-gray-200 relative">
+    @if (user.cover) {
+      <img [src]="user.cover" class="w-full h-full object-cover" />
+    }@else{
+      <img
+        [src]="user.photo"
+       class="w-full h-full object-cover"
+      />
+    }
+
+    <!-- Profile Image -->
+    <div class="absolute -bottom-12 left-6">
+      <img
+        [src]="user.photo"
+        class="w-24 h-24 rounded-full border-4 border-white object-cover shadow"
+      />
+    </div>
+  </div>
+
+  <!-- Info -->
+  <div class="pt-16 px-6 pb-6">
+    <!-- Name + Username -->
+    <div class="flex justify-between items-start">
+      <div>
+        <h2 class="text-2xl font-bold">{{ user.name }}</h2>
+        <p class="text-gray-500">#{{ user.username }}</p>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="flex gap-6 mt-4 text-sm text-gray-600">
+      <span
+        ><strong>{{ user.followersCount }}</strong> Followers</span
+      >
+      <span
+        ><strong>{{ user.followingCount }}</strong> Following</span
+      >
+      <span
+        ><strong>{{ user.bookmarksCount }}</strong> Bookmarks</span
+      >
+    </div>
+
+    <!-- Extra Info -->
+    <div class="mt-4 text-sm text-gray-500 space-y-1">
+      <p>📧 {{ user.email }}</p>
+      <p>🎂 {{ user.dateOfBirth | date }}</p>
+      <p>⚧ {{ user.gender }}</p>
+      <p>📅 Joined {{ user.createdAt | date }}</p>
+    </div>
+  </div>
+</div>

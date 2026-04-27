@@ -1,0 +1,11 @@
+<section>
+  <!-- create post -->
+  <app-create-post (allPosts)="getAllPosts()"></app-create-post>
+
+  <!-- list posts -->
+  @for (post of postsList; track post._id) {
+    <div>
+      <app-single-post [postData]="post" (allPosts)="getAllPosts()"></app-single-post>
+    </div>
+  }
+</section>

@@ -1,0 +1,130 @@
+<section class="flex justify-center items-center min-h-screen">
+  <div
+    class="container bg-white rounded-lg shadow-lg border border-gray-300 p-4 max-w-3xl"
+  >
+    <h2 class="text-3xl">Log in in to Route Posts.</h2>
+    <p class="text-gray-400">Log in and continue your social.</p>
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="submitForm()"
+      class="grid gap-y-4 mt-2"
+    >
+      <!-- email -->
+      <div class="relative">
+        <input
+          [class]="{
+            'border-green-700': loginForm.get('login')?.valid,
+            'border-red-700':
+              loginForm.get('login')?.invalid &&
+              loginForm.get('login')?.touched,
+          }"
+          formControlName="login"
+          type="text"
+          id="login"
+          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          placeholder=" "
+        />
+        <label
+          for="login"
+          class="absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >user name or email</label
+        >
+      </div>
+      @if (loginForm.get("login")?.errors && loginForm.get("login")?.touched) {
+        <div
+          class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+          role="alert"
+        >
+          <span class="sr-only">Danger</span>
+          <div>
+            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+              @if (loginForm.get("login")?.hasError("required")) {
+                <li>User name or Email is required.</li>
+              } @else if (loginForm.get("login")?.hasError("minlength")) {
+                <li>Name must be at least 3 characters.</li>
+              }  @else if (loginForm.get("login")?.hasError("email")) {
+                <li>Please enter a valid email address.</li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+      <!-- password -->
+      <div class="relative">
+        <input #showPass
+          [class]="{
+            'border-green-700': loginForm.get('password')?.valid,
+            'border-red-700':
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched,
+          }"
+          formControlName="password"
+          type="password"
+          id="password"
+          class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-heading bg-transparent rounded-base border border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer"
+          placeholder=" "
+        />
+        <label
+          for="password"
+          class="absolute text-sm text-body duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-left bg-neutral-primary px-2 peer-focus:px-2 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto inset-s-1"
+          >Password</label
+        >
+          <span
+          (click)="showPassword(showPass)"
+          class="absolute top-1/2 inset-e-4 -translate-y-1/2 cursor-pointer"
+        >
+          <i
+            [class]="showPass.type === 'password' ? 'fa-eye-slash' : 'fa-eye'"
+            class="fas"
+          ></i>
+        </span>
+      </div>
+      @if (
+        loginForm.get("password")?.invalid && loginForm.get("password")?.touched
+      ) {
+        <div
+          class="flex p-4 mb-4 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+          role="alert"
+        >
+          <span class="sr-only">Danger</span>
+          <div>
+            <ul class="mt-2 list-disc list-outside space-y-1 ps-2.5">
+              @if (loginForm.get("password")?.hasError("required")) {
+                <li>Password is required.</li>
+              } @else if (loginForm.get("password")?.hasError("pattern")) {
+                <li>
+                  Must contain at least 8 chars, 1 uppercase, 1 lowercase, 1
+                  number, and 1 special
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      }
+
+      <button
+        type="submit"
+        class="bg-mainColor py-1.5 rounded text-white cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
+      >
+        Login
+        @if (loading) {
+          <i class="fas fa-spinner fa-spin animate-spin"></i>
+        }
+      </button>
+      @if (msgError) {
+        <p class="text-center text-red-700 bg-red-300 p-2 w-1/2 mx-auto capitalize">
+          {{ msgError }}
+        </p>
+      }
+      <div class="flex justify-between">
+        <a routerLink="/change-password" class="text-mainColor hover:underline"
+          >Forgot password ?
+        </a>
+        <a routerLink="/register" class="text-mainColor hover:underline">
+          Create new account ?
+        </a>
+      </div>
+    </form>
+  </div>
+</section>

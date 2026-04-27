@@ -1,0 +1,175 @@
+<section
+  class="border border-slate-200 rounded-[16px] p-4 bg-white"
+  aria-label="Comments"
+>
+  <div class="flex items-center gap-2 mb-2">
+    <h3 class="font-bold text-[15px] text-slate-900">Comments</h3>
+    <span
+      class="bg-blue-100 text-blue-600 text-[12px] font-bold px-2 py-0.5 rounded-full"
+      >{{ commentList.length }}</span
+    >
+  </div>
+
+  <!-- comment details  -->
+  @for (comment of commentList; track comment._id) {
+    <div class="flex gap-2 mb-4 group">
+      <img
+        [src]="comment.commentCreator.photo"
+        [alt]="comment.commentCreator.name"
+        class="w-8 h-8 rounded-full object-cover shrink-0 mt-1 bg-slate-100 border border-slate-50"
+      />
+
+      <div class="flex-1 flex flex-col items-start min-w-0">
+        <div
+          class="bg-slate-100 rounded-2xl rounded-tl-none px-3.5 py-2.5 max-w-full"
+        >
+          <div class="flex items-center gap-1.5 mb-0.5">
+            <span
+              class="text-[13px] font-bold text-slate-900 hover:underline cursor-pointer"
+              >{{ comment.commentCreator.name }}</span
+            >
+          </div>
+
+          <div class="flex items-center gap-1 text-[12px] text-slate-500 mb-1">
+            <span>#{{ comment.commentCreator.username }}</span>
+            <span>&middot;</span>
+            <span>{{ comment.createdAt }}</span>
+          </div>
+
+          @if (comment.content) {
+            <p class="text-[14px] text-slate-800 wrap-break-word">
+              {{ comment.content }}
+            </p>
+          }
+          @if (comment.image) {
+            <img
+              [src]="comment.image"
+              class="w-full h-37.5 object-cover"
+              alt="comment image"
+            />
+          }
+        </div>
+
+        <div
+          class="flex items-center gap-3 mt-1 ml-2 text-[12px] text-slate-500 font-semibold"
+        >
+          <span class="cursor-pointer hover:underline">{{
+            comment.createdAt
+          }}</span>
+          <button
+            (click)="likeComment(comment._id)"
+            [class]="like ? 'text-blue-700' : ''"
+            class="cursor-pointer hover:underline"
+          >
+            <span>{{ comment.likes }}</span> Like
+          </button>
+          <!-- <button (click)="repliesComment()" class="cursor-pointer hover:underline">Reply</button> -->
+          <button
+            (click)="openEditPopup()"
+            class="cursor-pointer hover:underline"
+          >
+            Edit
+          </button>
+          <button
+            (click)="deleteComment(comment._id)"
+            class="cursor-pointer hover:underline"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    @if (isOpen) {
+      <div
+        class="fixed inset-0 bg-black/40 flex justify-center items-center z-50"
+      >
+        <div class="bg-white w-full max-w-xl p-4 rounded-xl">
+          <form
+            #form
+            (submit)="submitUpdateCommentForm($event)"
+            class="w-full bg-white rounded-[16px] shadow-sm border border-slate-200 p-4 font-sans flex flex-col"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <img
+                [src]="userImg"
+                [alt]="userName"
+                class="w-10 h-10 rounded-full object-cover shrink-0 bg-slate-100 border border-slate-50"
+              />
+
+              <div>
+                <span
+                  class="text-[15px] font-bold text-slate-900 leading-tight"
+                  >{{ userName }}</span
+                >
+
+                <div
+                  class="flex p-1 w-fit items-center bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+                >
+                  <i
+                    class="fa-solid fa-earth-americas text-[11px] text-slate-600"
+                  ></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <textarea
+                [formControl]="commentControl"
+                class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-4 focus:ring-blue-50 focus:border-blue-300 transition-all resize-y min-h-30"
+                placeholder="What's on your mind...?"
+                aria-label="Create a new post"
+              ></textarea>
+            </div>
+
+            <hr class="border-t border-slate-800 mb-4" />
+
+            <div class="flex justify-center gap-2">
+              <button
+                type="button"
+                class="bg-gray-400 px-10 py-2 rounded cursor-pointer"
+                (click)="handleClose()"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="submit"
+                class="bg-blue-500 text-white px-10 py-2 rounded cursor-pointer"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    }
+  }
+
+  <!-- Create Comments  -->
+  <form (submit)="submitCommentForm($event)" class="flex gap-2 mt-4">
+    <img
+      [src]="userImg"
+      [alt]="userName"
+      class="w-8 h-8 rounded-full object-cover shrink-0 mt-1 bg-slate-100 border border-slate-50"
+    />
+
+    <div
+      class="flex-1 bg-slate-100 border border-transparent focus-within:border-blue-300 focus-within:ring-4 focus-within:ring-blue-50 focus-within:bg-white transition-all rounded-[20px] p-2 flex flex-col"
+    >
+      <textarea
+        [formControl]="commentControl"
+        class="w-full bg-transparent border-none text-[14px] text-slate-800 placeholder-slate-500 resize-none outline-none px-2 pt-1 pb-3 min-h-15"
+        placeholder="Your Comment ..."
+      ></textarea>
+
+      <div class="flex justify-end p-3">
+        <button
+          type="submit"
+          class="w-8 cursor-pointer h-8 rounded-full bg-blue-400 hover:bg-blue-500 text-white flex items-center justify-center transition-colors"
+        >
+          <i class="fa-solid fa-paper-plane text-[13px] ms-1 mt-.5"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</section>

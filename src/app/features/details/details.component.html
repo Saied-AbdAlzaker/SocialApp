@@ -1,0 +1,181 @@
+<section
+  class="w-full bg-white mx-auto rounded-[16px] my-3 shadow-sm border border-slate-200 p-4 font-sans cursor-pointer"
+>
+  <!-- user details  -->
+  <div class="flex items-start justify-between mb-3">
+    <div class="flex items-center gap-3">
+      <img
+        [src]="userDetails.photo"
+        [alt]="userDetails.name"
+        class="size-10 rounded-full object-cover shrink-0 bg-slate-100 border border-slate-50"
+      />
+
+      <div>
+        <span
+          class="text-[15px] font-bold text-slate-900 leading-tight hover:underline cursor-pointer"
+          >{{ userDetails.name }}</span
+        >
+        <div class="flex items-center text-[13px] text-slate-500 mt-0.5 gap-1">
+          <span class="hover:underline cursor-pointer"
+            >#{{ userDetails.username }}</span
+          >
+          <span>&middot;</span>
+          <span class="hover:underline cursor-pointer">{{
+            postDetails.createdAt
+          }}</span>
+          <span>&middot;</span>
+
+          <div
+            class="p-0 w-fit items-center bg-neutral-secondary-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body"
+          >
+            <select
+              [disabled]="userDetails._id !== userId"
+              class="border-none bg-transparent cursor-pointer ring-0 py-0 px-2 text-xs"
+            >
+              <option
+                [selected]="postDetails.privacy === 'public'"
+                value="public"
+              >
+                public
+              </option>
+              <option
+                [selected]="postDetails.privacy === 'following'"
+                value="following"
+              >
+                followers
+              </option>
+              <option
+                [selected]="postDetails.privacy === 'only_me'"
+                value="only_me"
+              >
+                only me
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- post content  -->
+  <div class="text-[15px] text-slate-900 mb-4">
+    @if (postDetails.bookmarked) {
+      <p>{{ postDetails.bookmarked }}</p>
+    }
+     <div class="text-[15px] text-slate-900 mb-4">
+      @if (postDetails.body) {
+        <p>{{ postDetails.body }}</p>
+      }
+      @if (postDetails.image) {
+        <img
+          [src]="postDetails.image"
+          class="w-full max-h-90 object-cover rounded shadow mt-2"
+          alt="postData Image"
+        />
+      }
+    </div>
+    @if (postDetails.image) {
+      <img
+        [src]="postDetails.image"
+        class="w-full max-h-90 object-cover rounded shadow mt-2"
+        alt="Post Image"
+      />
+    }
+  </div>
+
+  <!-- like share comments  counts & view details -->
+  <div
+    class="flex items-center justify-between text-[13px] text-slate-500 mb-3 px-1"
+  >
+    <div class="flex items-center gap-1.5 cursor-pointer hover:underline">
+      <div
+        class="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-2xs"
+      >
+        <i class="fa-solid fa-thumbs-up"></i>
+      </div>
+      <span>{{ postDetails.likesCount }} likes</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <span class="cursor-pointer hover:underline"
+        >{{ postDetails.sharesCount }} shares</span
+      >
+      <span class="cursor-pointer hover:underline"
+        >{{ postDetails.commentsCount }} comments</span
+      >
+    </div>
+  </div>
+
+  <hr class="border-t border-slate-200 mb-1" />
+
+  <!-- buttons like - comment - share -->
+  <div class="flex items-center justify-between px-1 py-1">
+    <button
+      class="flex-1 cursor-pointer flex items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+    >
+      <i class="fa-regular fa-thumbs-up text-lg"></i>
+      Like
+    </button>
+    <button
+      #commentEle
+      class="flex-1 flex cursor-pointer items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+    >
+      <i class="fa-regular fa-message text-lg"></i>
+      Comment
+    </button>
+    <button
+      class="flex-1 flex cursor-pointer items-center justify-center gap-2 text-slate-600 font-semibold text-[14px] hover:bg-slate-50 py-2 rounded-lg transition-colors"
+    >
+      <i class="fa-solid fa-share text-lg"></i>
+      Share
+    </button>
+  </div>
+
+  <hr class="border-t border-slate-200 mt-1 mb-4" />
+
+  <!-- top comment -->
+  @defer (on interaction(commentEle)) {
+    <div class="flex gap-2 mb-4 group">
+      <img
+        [src]="userDetails.photo"
+        [alt]="userDetails.name"
+        class="w-8 h-8 rounded-full object-cover shrink-0 mt-1 bg-slate-100 border border-slate-50"
+      />
+
+      <div class="flex-1 flex flex-col items-start min-w-0">
+        <div
+          class="bg-slate-100 rounded-2xl rounded-tl-none px-3.5 py-2.5 max-w-full"
+        >
+          <div class="flex items-center gap-1.5 mb-0.5">
+            <span
+              class="text-[13px] font-bold text-slate-900 hover:underline cursor-pointer"
+              >{{ userDetails.name }}</span
+            >
+          </div>
+
+          <div class="flex items-center gap-1 text-[12px] text-slate-500 mb-1">
+            <span>#{{ userDetails.username }}</span>
+            <span>&middot;</span>
+            <span>{{ postDetails.createdAt }}</span>
+          </div>
+
+          @if (postDetails.topComment.content) {
+            <p class="text-[14px] text-slate-800 wrap-break-word">
+              {{ postDetails.topComment.content }}
+            </p>
+          }
+        </div>
+
+        <div
+          class="flex items-center gap-3 mt-1 ml-2 text-[12px] text-slate-500 font-semibold"
+        >
+          <span class="cursor-pointer hover:underline">{{
+            postDetails.topComment.createdAt
+          }}</span>
+          <button class="cursor-pointer hover:underline">
+            Like {{ postDetails.topComment.likes.length }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</section>

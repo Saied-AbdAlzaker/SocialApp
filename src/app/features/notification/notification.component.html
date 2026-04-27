@@ -1,0 +1,70 @@
+<div class="w-fullmx-auto bg-white rounded-xl shadow my-5">
+  <!-- Header -->
+  <div class="p-4 border-b font-semibold flex justify-between items-center">
+    Notifications
+    <button
+      (click)="markAllRead()"
+      class="hover:bg-blue-500 hover:text-white border text-blue-500 rounded-2xl p-3 text-s cursor-pointer"
+    >
+      Mark all read
+    </button>
+  </div>
+
+  <!-- List -->
+  <div class="max-h-100 overflow-y-auto">
+    @for (notification of notificationList; track notification._id) {
+      <div
+        class="flex gap-3 p-4 border-b cursor-pointer transition"
+        [class]="{
+          'bg-blue-50': !notification.isRead,
+          'hover:bg-gray-50': notification.isRead,
+        }"
+      >
+        <!-- Avatar -->
+        <img
+          [src]="notification.actor.photo"
+          class="w-10 h-10 rounded-full object-cover"
+        />
+
+        <!-- Content -->
+        <div class="flex-1 text-sm">
+          <!-- Dynamic Message -->
+          <p class="text-gray-800">
+            <span class="font-semibold me-5">{{
+              notification.actor.name
+            }}</span>
+
+            @switch (notification.type) {
+              @case ("like_post") {
+                <span>liked your post ❤️</span>
+              }
+              @case ("comment_post") {
+                <span>commented on your post 💬</span>
+              }
+              @case ("share_post") {
+                <span>shared your post 🔁</span>
+              }
+              @default {
+                <span> interacted with your post </span>
+              }
+            }
+          </p>
+
+          <!-- Time -->
+          <span class="text-xs text-gray-400">
+            {{ notification.createdAt | date: "short" }}
+          </span>
+        </div>
+
+        <!-- Unread -->
+        @if (!notification.isRead) {
+          <button
+            (click)="markNotificationRead(notification._id)"
+            [class]="!notification.isRead ? 'bg-blue-500':''"
+            class="w-2 h-2 rounded-full mt-2"
+          ></button>
+        }
+      </div>
+    }
+  </div>
+</div>

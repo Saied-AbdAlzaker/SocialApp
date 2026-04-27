@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+<section
+  class="grid lg:grid-cols-[220px__minmax(0,1fr)__320px] gap-4 items-start"
+>
+  <!-- left side-bar -->
+  <app-sidebar-left></app-sidebar-left>
+  <!-- posts -->
+  <div>
+    <router-outlet></router-outlet>
+  </div>
+  <!-- right side-bar -->
+  <app-sidebar-right></app-sidebar-right>
+</section>
